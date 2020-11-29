@@ -1,0 +1,26 @@
+{% extends 'pizzas/base.html' %}
+
+{% block content %}
+
+<p>Pizzas</p>
+
+<ul>
+    {% for pizza in pizzas %}
+
+    <li>
+        <a href="{% url 'pizzas:pizza' pizza.id %}">{{ pizza }}</a>
+    </li> 
+
+    {% empty %}
+
+    <li>No pizzas have been added yet.</li>
+
+    {% endfor %}
+</ul>
+
+{% endblock content %}
+
+<!-- <ul> a bulleted list in HTML is called an unordered list
+<li> li is a list item 
+{{print}} double braces prints a variable
+HTML needs an endfor tag to end the for loop -->

@@ -11,12 +11,16 @@ app_name = 'pizzas'
 #project url file
 
 urlpatterns = [
-    path('',views.index, name='index')
+    path('',views.index, name='index'),
     #path is the map
     #the empty '' is the base url
     #calls index function in views.py
     #provides name index for the url later
     #index is the home page
+    path('pizzas',views.pizzas,name='pizzas'),
+    #this is the url to list all the available pizzas 
+    path('pizzas/<int:pizza_id>/', views.pizza, name='pizza'),
+    #this is the url to each individual pizza by their id#
 
 ]
 
