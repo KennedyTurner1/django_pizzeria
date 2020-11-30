@@ -13,6 +13,7 @@ class Pizza(models.Model):
 
 class Topping(models.Model):
     pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
+    #makes a connection, 1 pizza can have many toppings
     name = models.CharField(max_length=200)
     #we do not need a textbox but a character box 
 

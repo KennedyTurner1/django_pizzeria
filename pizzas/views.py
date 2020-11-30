@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -33,3 +33,35 @@ def pizza(request, pizza_id):
     context = {'pizza':pizza, 'toppings':toppings}
 
     return render(request, 'pizzas/pizza.html', context)
+
+from .forms import PizzaForm
+
+def new_comment(request, pizza_id):
+    pizza = Pizza.objects.get(id=pizza_id)
+    #get the pizza we requested
+
+    if request.method != 'POST': 
+        #if the request is a 'GET' request
+        form = PizzaForm() 
+        #create a form, then render the request to the html page
+    else: 
+        #if it is a post request
+        form = PizzaForm(data=request.POST) 
+        #post the request
+
+        if form.is_valid():
+            #if the form doesn't have errors
+            new_comment = form.save(commit=False)
+            #don't save the object to the database yet until we've assigned
+            #the new comment to the pizza page
+            new_comment.pizza = pizza
+            #assign the new comment to the pizza
+            new_comment.save()
+            #save the comment
+            form.save()
+            #save the form
+            return redirect('pizzas:pizza', pizza_id=pizza_id)
+            #redirect the user back to the previous page associated with the id
+
+    context = {'form':form, 'pizza':pizza}
+    return render(request, 'pizzas/new_comment.html', context)

@@ -21,7 +21,7 @@ urlpatterns = [
     #this is the url to list all the available pizzas 
     path('pizzas/<int:pizza_id>/', views.pizza, name='pizza'),
     #this is the url to each individual pizza by their id#
-
+    path('new_comment/<int:pizza_id>/', views.new_comment, name='new_comment'),
 ]
 
 #url patterns is a list of individual pages
