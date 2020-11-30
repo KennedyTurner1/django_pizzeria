@@ -63,5 +63,5 @@ def new_comment(request, pizza_id):
             return redirect('pizzas:pizza', pizza_id=pizza_id)
             #redirect the user back to the previous page associated with the id
 
-    context = {'form':form, 'pizza':pizza}
+    context = {'form':form, 'pizza':pizza} #'new comment':new_comment}
     return render(request, 'pizzas/new_comment.html', context)

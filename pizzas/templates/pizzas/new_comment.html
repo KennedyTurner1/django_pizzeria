@@ -6,7 +6,7 @@
 
 <p>Add a new comment:</p>
 
-<form action="{% url 'pizzas:new_comment' pizza.id %}" method='post'>
+<form action="{% url 'pizzas:pizza' pizza.id %}" method='POST'>
     {% csrf_token %}
     {{ form.as_p }}
 

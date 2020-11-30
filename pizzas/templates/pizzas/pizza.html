@@ -22,6 +22,13 @@
 
 <p>Comments: </p>
 
+    {% for comment in new_comment %}
+    <li>{{ comment }}</li>
+    
+    {% empty %}
+    <li>There are no comments for this pizza yet.</li>
+
+    {% endfor %}
 <p>
     <a href="{% url 'pizzas:new_comment' pizza.id %}">Add a new comment</a>
 </p>
