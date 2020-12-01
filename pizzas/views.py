@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -11,8 +12,9 @@ def index(request):
     #this sends the requesr back to the browser using an html template
     #that defines what the page will look like
 
-from .models import Pizza
+from .models import Pizza, Comment
 
+@login_required
 def pizzas(request):
     pizzas = Pizza.objects.all()
     #get all the pizza objects, Hawaiian and Meat Lovers
@@ -24,44 +26,48 @@ def pizzas(request):
     #return the get request, send it to pizzas/pizzas.html
     #with the data of the available pizzas
 
+@login_required
 def pizza(request, pizza_id):
     pizza = Pizza.objects.get(id=pizza_id)
     #get the object associated with the id we requested
     toppings = pizza.topping_set.all()
     #access the foreign key by the entry_set function
     #list them all
-    context = {'pizza':pizza, 'toppings':toppings}
+    comments = pizza.comment_set.all()
+    context = {'pizza':pizza, 'toppings':toppings, 'comments': comments}
 
     return render(request, 'pizzas/pizza.html', context)
 
-from .forms import PizzaForm
+from .forms import CommentForm
 
+@login_required
 def new_comment(request, pizza_id):
     pizza = Pizza.objects.get(id=pizza_id)
+    #owner = Comment.objects.get(id=owner_id)
     #get the pizza we requested
 
     if request.method != 'POST': 
         #if the request is a 'GET' request
-        form = PizzaForm() 
+        form = CommentForm() 
         #create a form, then render the request to the html page
     else: 
         #if it is a post request
-        form = PizzaForm(data=request.POST) 
+        form = CommentForm(data=request.POST) 
         #post the request
 
         if form.is_valid():
             #if the form doesn't have errors
-            new_comment = form.save(commit=False)
+            comment = form.save(commit=False)
             #don't save the object to the database yet until we've assigned
             #the new comment to the pizza page
-            new_comment.pizza = pizza
-            #assign the new comment to the pizza
-            new_comment.save()
+            comment.owner = request.user
+            #assign the new comment to the puser
+            comment.save()
             #save the comment
             form.save()
             #save the form
             return redirect('pizzas:pizza', pizza_id=pizza_id)
             #redirect the user back to the previous page associated with the id
 
-    context = {'form':form, 'pizza':pizza} #'new comment':new_comment}
+    context = {'form':form, 'pizza':pizza}#, 'owner':owner} 
     return render(request, 'pizzas/new_comment.html', context)

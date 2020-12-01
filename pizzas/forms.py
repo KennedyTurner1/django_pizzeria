@@ -1,10 +1,9 @@
 from django import forms
 
-from .models import Pizza
+from .models import Comment
 
-class PizzaForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta: #a meta class defines the behavior of PizzaForm
-        model = Pizza
-        fields = ['name']
-        labels = {'name': ''}
-        widgets = {'name': forms.Textarea(attrs={'cols':80})}
+        model = Comment
+        fields = ['text']
+        widgets = {'text':forms.Textarea(attrs={'cols':80})}

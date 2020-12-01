@@ -22,8 +22,9 @@
 
 <p>Comments: </p>
 
-    {% for comment in new_comment %}
-    <li>{{ comment }}</li>
+    {% for comments in comments %}
+    <li>{{ comment.text }}</li>
+    <li>{{ comment.owner }}</li>
     
     {% empty %}
     <li>There are no comments for this pizza yet.</li>

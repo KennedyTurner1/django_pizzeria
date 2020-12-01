@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -19,3 +20,13 @@ class Topping(models.Model):
 
     def __str__(self):
         return self.name
+
+class Comment(models.Model):
+    pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    #makes a connection, 1 pizza can have many toppings
+    text = models.TextField()
+   
+
+    def __str__(self):
+        return f"{self.text[:100]}..."
