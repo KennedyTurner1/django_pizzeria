@@ -14,7 +14,7 @@ def index(request):
 
 from .models import Pizza, Comment
 
-@login_required
+
 def pizzas(request):
     pizzas = Pizza.objects.all()
     #get all the pizza objects, Hawaiian and Meat Lovers
@@ -26,7 +26,7 @@ def pizzas(request):
     #return the get request, send it to pizzas/pizzas.html
     #with the data of the available pizzas
 
-@login_required
+
 def pizza(request, pizza_id):
     pizza = Pizza.objects.get(id=pizza_id)
     #get the object associated with the id we requested
@@ -57,17 +57,18 @@ def new_comment(request, pizza_id):
 
         if form.is_valid():
             #if the form doesn't have errors
-            comment = form.save(commit=False)
+            new_comment = form.save(commit=False)
             #don't save the object to the database yet until we've assigned
             #the new comment to the pizza page
-            comment.owner = request.user
+            new_comment.pizza = pizza
+            new_comment.owner = request.user
             #assign the new comment to the puser
-            comment.save()
+            new_comment.save()
             #save the comment
             form.save()
             #save the form
             return redirect('pizzas:pizza', pizza_id=pizza_id)
             #redirect the user back to the previous page associated with the id
 
-    context = {'form':form, 'pizza':pizza}#, 'owner':owner} 
+    context = {'form':form, 'pizza':pizza}
     return render(request, 'pizzas/new_comment.html', context)
