@@ -33,8 +33,8 @@ def pizza(request, pizza_id):
     toppings = pizza.topping_set.all()
     #access the foreign key by the entry_set function
     #list them all
-    comments = pizza.comment_set.all()
-    context = {'pizza':pizza, 'toppings':toppings, 'comments': comments}
+    comment = pizza.comment_set.all()
+    context = {'pizza':pizza, 'toppings':toppings, 'comments': comment} #red is variable for html site
 
     return render(request, 'pizzas/pizza.html', context)
 
@@ -43,7 +43,6 @@ from .forms import CommentForm
 @login_required
 def new_comment(request, pizza_id):
     pizza = Pizza.objects.get(id=pizza_id)
-    #owner = Comment.objects.get(id=owner_id)
     #get the pizza we requested
 
     if request.method != 'POST': 
@@ -57,16 +56,14 @@ def new_comment(request, pizza_id):
 
         if form.is_valid():
             #if the form doesn't have errors
-            new_comment = form.save(commit=False)
+            comment = form.save(commit=False)
             #don't save the object to the database yet until we've assigned
             #the new comment to the pizza page
-            new_comment.pizza = pizza
-            new_comment.owner = request.user
+            comment.pizza = pizza
+            comment.owner = request.user
             #assign the new comment to the puser
-            new_comment.save()
+            comment.save()
             #save the comment
-            form.save()
-            #save the form
             return redirect('pizzas:pizza', pizza_id=pizza_id)
             #redirect the user back to the previous page associated with the id
 

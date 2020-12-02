@@ -26,6 +26,12 @@ class Comment(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     #makes a connection, 1 pizza can have many toppings
     text = models.TextField()
+    #to add an attribute, first you create the attribute
+    #then you save the file
+    #then you make a migration
+    #then make sure your view is correct for the html
+    #add it to the html
+    date_added = models.DateTimeField(auto_now_add=True)
    
 
     def __str__(self):

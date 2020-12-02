@@ -1,5 +1,7 @@
 {% extends 'pizzas/base.html' %}
 
+{% load static %}
+
 {% block content %}
 
 <p>Pizzas</p>
@@ -17,6 +19,8 @@
 
     {% endfor %}
 </ul>
+
+<img src="{% static 'pizzas/images/pizzas_html_photo.jpg' %}">
 
 {% endblock content %}
 

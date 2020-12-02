@@ -22,14 +22,19 @@
 
 <p>Comments: </p>
 
+<ul>
     {% for comment in comments %}
-    <li>{{ comment.text }}</li>
-    <li>{{ comment.owner }}</li>
-    
+    <li>{{comment.owner}} at {{comment.date_added|date:'M d, Y H:i'}} said:</li>
+    <p>{{ comment.text }}<p>
+    <br>
+
     {% empty %}
     <li>There are no comments for this pizza yet.</li>
 
     {% endfor %}
+
+</ul>
+
 <p>
     <a href="{% url 'pizzas:new_comment' pizza.id %}">Add a new comment</a>
 </p>
