@@ -14,7 +14,6 @@ def index(request):
 
 from .models import Pizza, Comment
 
-
 def pizzas(request):
     pizzas = Pizza.objects.all()
     #get all the pizza objects, Hawaiian and Meat Lovers
